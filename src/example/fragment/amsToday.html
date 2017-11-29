@@ -1,7 +1,7 @@
 <div class="page">
     <div class="weui-tab">
         <div class="page__hd">
-            <h1 class="page__title bulletinTitle" >测试公告标题</h1>
+            <h1 class="page__title bulletinTitle" class="">测试公告标题</h1>
             <p class="page__desc bulletinContent" >测试公告内容</p>
         </div>
         <div class="page__bd">
@@ -90,7 +90,7 @@
                     var item;
                     $('#taskInfoPanelToday').empty();
                     $.each(data['data'], function (i, result) {
-                        item = '<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg weui-cell_access js_item" data-id="assignment-uploader"> <div class="weui-media-box__bd">'
+                        item = '<a href="javascript:void(0);" onclick="setCookie(\'tid\', \'' + result['taskId'] + '\', 3600)" class="weui-media-box weui-media-box_appmsg weui-cell_access js_item" data-id="amsUploader"> <div class="weui-media-box__bd">'
                             + result['taskName'];
                         if ("未完成" == result['taskStatus']) {
                             item += '<h4 class = "weui-media-box__title" > </h4> <p class="weui-media-box__desc">状态：<span style="color:red">'
@@ -125,5 +125,13 @@
             if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
         }
         return "";
+    }
+
+    function setCookie(c_name, value, expiredays) {
+        var exdate = new Date()
+        exdate.setDate(exdate.getDate() + expiredays)
+        document.cookie = c_name + "=" + escape(value) +
+            ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+        location.hash = "#amsUploader";
     }
 </script>
