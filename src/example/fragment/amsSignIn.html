@@ -1,0 +1,220 @@
+<div class="weui-tabbar" id="ams-tabbar" style="display: none;">
+    <a href="javascript:;" class="weui-tabbar__item js_item weui-bar__item_on" data-id="amsToday">
+        <img src="./images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+        <p class="weui-tabbar__label">今日作业</p>
+    </a>
+    <a href="javascript:;" class="weui-tabbar__item js_item " data-id="amsWeek">
+        <img src="./images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+        <p class="weui-tabbar__label">本周剩余作业</p>
+    </a>
+    <a href="javascript:;" class="weui-tabbar__item js_item" data-id="amsAnalysis">
+        <img src="./images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+        <p class="weui-tabbar__label">统计</p>
+    </a>
+</div>
+<div class="page">
+    <div class="page__hd">
+        <h1 class="page__title">ITTAC作业系统</h1>
+        <p class="page__desc">微信版</p>
+    </div>
+    <div class="page__bd">
+
+        <div class="weui-cells__title">登录</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">邮箱</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="email" type="email" placeholder="请输入邮箱号"/>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="password" type="password" placeholder="请输入密码号"/>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
+        </div>
+    </div>
+
+    <div id="dialogs">
+        <!--BEGIN dialog2-->
+        <div class="js_dialog" id="iosDialog2" style="display: none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd" id="amsSignInMsgContent"></div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+                </div>
+            </div>
+        </div>
+        <!--END dialog2-->
+    </div>
+
+    <div id="amsDialogs">
+        <!--BEGIN dialog2-->
+        <div class="js_dialog" id="amsDialog" style="display: none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd" id="amsDialogContent"></div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+                </div>
+            </div>
+        </div>
+        <!--END dialog2-->
+    </div>
+
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">数据加载中</p>
+        </div>
+    </div>
+
+    <!--BEGIN dialog1-->
+    <div id="amsDialogs1">
+    <div class="js_dialog" id="iosDialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">监测到登录信息</strong></div>
+            <div class="weui-dialog__bd">是否自动登录？</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">取消</a>
+                <a href="javascript:;" onclick="autoLogin()" class="weui-dialog__btn weui-dialog__btn_primary">自动登录</a>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!--END dialog1-->
+
+
+</div>
+
+
+<script type="text/javascript">
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        }
+        return "";
+    }
+
+    function setCookie(c_name, value, expiredays) {
+        var exdate = new Date()
+        exdate.setDate(exdate.getDate() + expiredays)
+        document.cookie = c_name + "=" + escape(value) +
+            ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+    }
+
+    function autoLogin() {
+        setCookie('uid', getCookie('uid'), 7200);
+        $("#ams-tabbar").css("display", 'flex');
+        location.hash = "#amsToday";
+    }
+    $(function () {
+        $('#amsDialogs1').on('click', '.weui-dialog__btn', function () {
+            $(this).parents('.js_dialog').fadeOut(200);
+        });
+    });
+
+
+    $(function () {
+        var winH = $(window).height();
+        var categorySpace = 10;
+
+        $('.js_item').on('click', function () {
+            var id = $(this).data('id');
+            window.pageManager.go(id);
+        });
+        $('.js_category').on('click', function () {
+            var $this = $(this),
+                $inner = $this.next('.js_categoryInner'),
+                $page = $this.parents('.page'),
+                $parent = $(this).parent('li');
+            var innerH = $inner.data('height');
+            bear = $page;
+
+            if (!innerH) {
+                $inner.css('height', 'auto');
+                innerH = $inner.height();
+                $inner.removeAttr('style');
+                $inner.data('height', innerH);
+            }
+
+            if ($parent.hasClass('js_show')) {
+                $parent.removeClass('js_show');
+            } else {
+                $parent.siblings().removeClass('js_show');
+
+                $parent.addClass('js_show');
+                if (this.offsetTop + this.offsetHeight + innerH > $page.scrollTop() + winH) {
+                    var scrollTop = this.offsetTop + this.offsetHeight + innerH - winH + categorySpace;
+
+                    if (scrollTop > this.offsetTop) {
+                        scrollTop = this.offsetTop - categorySpace;
+                    }
+
+                    $page.scrollTop(scrollTop);
+                }
+            }
+        });
+
+        $('#dialogs').on('click', '.weui-dialog__btn', function () {
+            $(this).parents('.js_dialog').fadeOut(200);
+        });
+
+        $('#showTooltips').on('click', function () {
+            $('input').blur();
+            var fd = new FormData();
+            fd.append("email", $('#email').val());
+            fd.append("password", $('#password').val());
+
+            $.ajax({
+                url: "http://ihm.ittac.org/wechat/signIn",
+                type: "POST",
+                data: fd,
+                crossDomain: true,
+                async: false,
+                processData: false,  // 不处理数据
+                contentType: false,  // 不设置内容类型
+                success: function (data) {
+                    if ("0" == data['status']) {
+                        setCookie('uid', data['uid'], 7200);
+//                        $('#uid').text(data['uid']);
+
+                        $("#ams-tabbar").css("display", 'flex');
+                        location.hash = "#amsToday";
+                    } else {
+                        $('#amsSignInMsgContent').text(data['info']);
+                        $('#iosDialog2').fadeIn(200);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest.status);
+                    alert(XMLHttpRequest.readyState);
+                    alert(textStatus);
+                    $('#amsSignInMsgContent').text('登录失败');
+                    $('#iosDialog2').fadeIn(200);
+                }
+            });
+        });
+
+
+        var $iosDialog1 = $('#iosDialog1');
+        if ("" != getCookie('uid')) {
+            $iosDialog1.fadeIn(200);
+        }
+    });
+
+
+</script>
