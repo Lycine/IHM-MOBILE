@@ -1,8 +1,8 @@
 <div class="page">
     <div class="weui-tab">
         <div class="page__hd">
-            <h1 class="page__title">以下内容很重要！！！</h1>
-            <p class="page__desc">新学期 新作业系统 新助教跟踪体系 新面貌完成新作业 加油！！！</p>
+            <h1 class="page__title bulletinTitle" >测试公告标题</h1>
+            <p class="page__desc bulletinContent" >测试公告内容</p>
         </div>
         <div class="page__bd">
             <div class="weui-panel weui-panel_access">
@@ -46,6 +46,33 @@
         $(this).parents('.js_dialog').fadeOut(200);
     });
 
+    function getBulletin() {
+        var fd = new FormData();
+        fd.append("uid", getCookie('uid'));
+        $.ajax({
+            type: "POST",
+            url: "http://" + $('#serviceDomain').text() + "/wechat/bulletin",
+            data: fd,
+            crossDomain: true,
+            async: false,
+            processData: false,  // 不处理数据
+            contentType: false,  // 不设置内容类型
+            success: function (data) {
+                if ("0" == data['status']) {
+                    $('.bulletinTitle').text(data['bulletinTitle']);
+                    $('.bulletinContent').text(data['bulletinContent']);
+                } else {
+                    $('#amsDialogContentToday').text(data['info']);
+                    $('#amsDialogToday').fadeIn(200);
+                }
+            },
+            error: function () {
+                $('#amsDialogContentToday').text('公告加载失败');
+                $('#amsDialogToday').fadeIn(200);
+            }
+        });
+    }
+
     function getWeekData() {
         var fd = new FormData();
         fd.append("uid", getCookie('uid'));
@@ -88,9 +115,8 @@
             }
         });
     }
-
+    getBulletin();
     getWeekData();
-
     function getCookie(cname) {
         var name = cname + "=";
         var ca = document.cookie.split(';');
