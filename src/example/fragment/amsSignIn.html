@@ -180,7 +180,7 @@
             fd.append("password", $('#password').val());
 
             $.ajax({
-                url: "http://ihm.ittac.org/wechat/signIn",
+                url: "http://" + $('#serviceDomain').text() + "/wechat/signIn",
                 type: "POST",
                 data: fd,
                 crossDomain: true,
