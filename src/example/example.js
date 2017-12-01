@@ -290,7 +290,7 @@ $(function () {
         preload();
         fastClick();
         androidInputBugFix();
-        setJSAPI();
+        // setJSAPI();
         setPageManager();
         window.pageManager = pageManager;
         window.home = function () {

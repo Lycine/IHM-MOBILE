@@ -6,11 +6,18 @@
     <title>ITTAC作业系统微信版</title>
     <link rel="stylesheet" href="../style/weui.css"/>
     <link rel="stylesheet" href="./example.css"/>
-    <script src="http://cdn.staticfile.org/echarts/3.5.0/echarts.min.js"></script>
+    <link rel="apple-touch-icon" href="./images/ihm-wechat-logo-72.jpg">
+    <link rel="apple-touch-icon" sizes="76x76" href="./images/ihm-wechat-logo-72.jpg">
+    <link rel="apple-touch-icon" sizes="120x120" href="./images/ihm-wechat-logo-120.jpg">
+    <link rel="apple-touch-icon" sizes="152x152" href="./images/ihm-wechat-logo-152.jpg">
+    <link rel="shortcut icon" href="./images/ihm-wechat-logo-72.jpg" />
+    <script src="echarts.min.js"></script>
 </head>
 <body ontouchstart>
-<!--<div hidden id="serviceDomain">ihm.ittac.org</div>-->
-<div hidden id="serviceDomain">localhost:8082</div>
+<div hidden id="serviceDomain">ihm.ittac.org</div>
+<div hidden id="ihmServiceVersion">0.6.6</div>
+<div hidden id="ihmMobileVersion">0.6.6</div>
+<!--<div hidden id="serviceDomain">localhost:8082</div>-->
 
 <div class="container" id="container"></div>
 <link rel="import" href="./fragment/amsSignIn.html">
@@ -21,8 +28,8 @@
 
 
 <script src="./zepto.min.js"></script>
-<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script type="text/javascript" src="jweixin-1.0.0.js"></script>
+<script src="weui.min.js"></script>
 <script src="example.js"></script>
 </body>
 </html>
